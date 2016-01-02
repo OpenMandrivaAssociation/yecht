@@ -1,26 +1,19 @@
 %{?_javapackages_macros:%_javapackages_macros}
-%global commitversion 157cf13
-%global dlversion 0.0.2-0-g157cf13
-%global cluster olabini
 
 Name:     yecht
-Version:  0.0.2
-Release:  9.0%{?dist}
+Version:  1.0
+Release:  1.1
 Summary:  A YAML processor based on Syck
-
+Group:	Development/Java
 License:  MIT
-URL:            http://github.com/%{cluster}/%{name}
-Source0:        %{url}/tarball/%{version}/%{cluster}-%{name}-%{dlversion}.tar.gz
-Patch0:   fix-build-xml-classpaths.path
+URL:            http://github.com/jruby/%{name}
+Source0:        %{url}/tarball/%{version}/%{name}-%{name}-%{version}.tar.gz
+Patch0:   disable-jruby-dep.patch
 
-# https://bugzilla.redhat.com/show_bug.cgi?id=561455
-Patch1:   add-javadocs-to-build-xml.patch
-
-BuildRoot: %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 BuildRequires: java-devel
 BuildRequires: jpackage-utils
-BuildRequires: ant
-Requires: java
+BuildRequires: maven-local
+Requires: java-headless
 Requires: jpackage-utils
 
 BuildArch:      noarch
@@ -38,39 +31,21 @@ Requires:       jpackage-utils
 This package contains the API documentation for %{name}.
 
 %prep
-%setup -q -n olabini-%{name}-%{commitversion}
-%patch0 -p1
-%patch1
+%setup -n %{name}-%{name}-%{version}
+%patch0
 
 find ./ -name '*.jar' -exec rm -f '{}' \; 
 find ./ -name '*.class' -exec rm -f '{}' \; 
 
 %build
-mkdir lib
-ant
-ant javadocs
+%mvn_build
 
 %install
-rm -rf $RPM_BUILD_ROOT
-mkdir -p $RPM_BUILD_ROOT%{_javadir}
+%mvn_install
 
-cp lib/yecht-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/yecht-%{version}.jar
-ln -s %{_javadir}/yecht-%{version}.jar $RPM_BUILD_ROOT%{_javadir}/yecht.jar
+%files -f .mfiles
 
-mkdir -p $RPM_BUILD_ROOT%{_javadocdir}/%{name}
-cp -rp javadocs/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}
-
-%clean
-rm -rf $RPM_BUILD_ROOT
-
-%files
-%defattr(-,root,root,-)
-%{_javadir}/yecht-%{version}.jar
-%{_javadir}/yecht.jar
-
-%files javadoc
-%defattr(-,root,root,-)
-%{_javadocdir}/%{name}
+%files javadoc -f .mfiles-javadoc
 
 %changelog
 * Sun Aug 04 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.0.2-9
