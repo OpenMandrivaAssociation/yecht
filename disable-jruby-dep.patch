@@ -1,0 +1,51 @@
+--- pom.xml.orig	2014-12-15 14:19:25.869505963 -0500
++++ pom.xml	2014-12-15 14:19:08.014719095 -0500
+@@ -23,35 +23,6 @@
+   
+   <build>
+     <sourceDirectory>${basedir}/src/main</sourceDirectory>
+-    <plugins>
+-      <plugin>
+-        <groupId>org.codehaus.mojo</groupId>
+-        <artifactId>build-helper-maven-plugin</artifactId>
+-        <version>1.8</version>
+-        <executions>
+-          <execution>
+-            <id>add-ext</id>
+-            <phase>initialize</phase>
+-            <goals>
+-              <goal>add-source</goal>
+-            </goals>
+-            <configuration>
+-              <sources>
+-                <source>${basedir}/ext/ruby/src/java</source>
+-              </sources>
+-            </configuration>
+-          </execution>
+-        </executions>
+-      </plugin>
+-    </plugins>
+-    <resources>
+-      <resource>
+-        <directory>ext/ruby/lib</directory>
+-        <includes>
+-          <include>**/*rb</include>
+-        </includes>
+-      </resource>
+-    </resources>
+   </build>
+ 
+   <properties>
+@@ -65,12 +36,6 @@
+       <version>3.8.1</version>
+       <scope>test</scope>
+     </dependency>
+-    <dependency>
+-      <groupId>org.jruby</groupId>
+-      <artifactId>jruby-core</artifactId>
+-      <version>[1.7.0,1.8.0)</version>
+-      <scope>provided</scope>
+-    </dependency>
+   </dependencies>
+ 
+ 
