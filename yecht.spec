@@ -2,7 +2,7 @@
 
 Name:     yecht
 Version:  1.0
-Release:  1.1
+Release:  1.2
 Summary:  A YAML processor based on Syck
 Group:	Development/Java
 License:  MIT
