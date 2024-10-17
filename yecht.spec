@@ -6,7 +6,7 @@ Release:  1.2
 Summary:  A YAML processor based on Syck
 Group:	Development/Java
 License:  MIT
-URL:            http://github.com/jruby/%{name}
+URL:            https://github.com/jruby/%{name}
 Source0:        %{url}/tarball/%{version}/%{name}-%{name}-%{version}.tar.gz
 Patch0:   disable-jruby-dep.patch
 
